@@ -13,14 +13,51 @@ export const solutions = [
   { id: 'power-solutions', title: 'Power solutions', short: 'Power Solutions', number: '06', eyebrow: 'POWERING EVERY CONNECTION', icon: 'power', image: 'photo-1473341304170-971dccb5ac1e', text: 'Support reliable operations with considered power distribution, backup and protection solutions.', products: ['UPS & backup power', 'Power distribution', 'Surge protection', 'Energy monitoring'], accent: '06 — POWER YOU CAN PLAN AROUND' },
 ]
 
+export const solutionBrandCategories = {
+  'structured-cabling': ['Cabling', 'Networking'],
+  'active-network-ip': ['Networking', 'Servers', 'UC/VoIP'],
+  'security-surveillance': ['Security', 'AV/PA/Intercom', 'Networking'],
+  'data-center-critical-power': ['Power', 'Servers', 'Cabling', 'Networking'],
+  'smart-building-iot': ['Networking', 'UC/VoIP', 'Security', 'AV/PA/Intercom'],
+  'power-solutions': ['Power', 'Servers'],
+}
+
 export const industries = [
-  { name: 'Commercial real estate', text: 'Connected workplaces that are ready for what is next.', icon: 'building' },
-  { name: 'Hospitality & retail', text: 'Better guest experiences, supported behind the scenes.', icon: 'store' },
-  { name: 'Healthcare', text: 'Dependable environments where every connection matters.', icon: 'heart' },
-  { name: 'Education', text: 'Flexible campuses designed to help people thrive.', icon: 'book' },
-  { name: 'Government & infrastructure', text: 'Resilient systems for essential services and public spaces.', icon: 'landmark' },
-  { name: 'Industrial & logistics', text: 'Reliable visibility and connectivity across operations.', icon: 'factory' },
+  { name: 'Commercial', text: 'Commercial buildings and workplaces.', icon: 'building' },
+  { name: 'Data Centres', text: 'Digital infrastructure and critical facilities.', icon: 'server' },
+  { name: 'Hospitality & Healthcare', text: 'Guest and care environments.', icon: 'heart' },
+  { name: 'Education', text: 'Schools, colleges and learning campuses.', icon: 'book' },
+  { name: 'Industrial', text: 'Industrial sites and operating environments.', icon: 'factory' },
+  { name: 'Residential', text: 'Residential buildings and communities.', icon: 'building' },
+  { name: 'Government', text: 'Government and public sector facilities.', icon: 'landmark' },
 ]
 
-// Partner logos and certifications are intentionally not populated until approved assets are supplied.
-export const brands = []
+export const brandGroups = [
+  { name: 'Power', icon: 'power' }, { name: 'Servers', icon: 'server' },
+  { name: 'Cabling', icon: 'cable' }, { name: 'Networking', icon: 'network' },
+  { name: 'UC/VoIP', icon: 'phone' }, { name: 'Security', icon: 'shield' },
+  { name: 'AV/PA/Intercom', icon: 'radio' },
+]
+
+export const standards = ['ANSI/TIA', 'ISO/IEC', 'IEEE', 'IEC/EN', 'RoHS/REACH', 'UL/ETL']
+
+// Restored verbatim from the existing committed homepage content.
+export const approvedValuePoints = [
+  { icon: 'blocks', title: 'A connected portfolio', text: 'Complementary technologies selected to work together across the project.' },
+  { icon: 'handshake', title: 'A partner mindset', text: 'Responsive collaboration with the people delivering the project.' },
+  { icon: 'clipboard', title: 'Project-aware support', text: 'Coordination that keeps specifications, procurement and delivery aligned.' },
+  { icon: 'headphones', title: 'Practical expertise', text: 'Product guidance grounded in your application and requirements.' },
+  { icon: 'globe', title: 'Regional perspective', text: 'A considered understanding of the regional project landscape.' },
+]
+export const company = {
+  name: 'ConnectX Technologies',
+  registration: '193507-1',
+  email: 'sales@connectx-tech.com',
+  phone: '+973 77936545',
+  address: 'Office no-14, Building no-49, Road-2701, Block-327, Dream Building, Adliya',
+  officeHours: '',
+  whatsappNumber: '',
+  linkedin: '', instagram: '', youtube: '',
+}
+// Brand names, approved logo assets, the five approved value points and certification evidence
+// have not been supplied. Render clearly marked placeholders until ConnectX approves them.

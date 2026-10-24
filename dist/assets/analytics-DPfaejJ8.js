@@ -1,0 +1,1 @@
+function e(){return!1}function t(e,t={}){typeof window<`u`&&window.gtag&&window.gtag(`event`,e,t)}export{e as enableAnalytics,t as trackEvent};
