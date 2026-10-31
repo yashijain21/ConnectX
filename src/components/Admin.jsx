@@ -17,7 +17,7 @@ function LeadCard({ lead }) {
       <span><strong>Company</strong>{lead.company}</span>
       <span><strong>Email</strong><a href={`mailto:${lead.email}`}>{lead.email}</a></span>
       {lead.role && <span><strong>Role</strong>{lead.role}</span>}
-      {lead.attachment && <span><strong>Attachment</strong>{lead.attachment.filename} ({(lead.attachment.size / 1024 / 1024).toFixed(2)} MB)</span>}
+      {lead.attachment && <span><strong>Attachment</strong><a href={lead.attachment.url} target="_blank" rel="noreferrer">{lead.attachment.filename} · {(lead.attachment.size / 1024 / 1024).toFixed(2)} MB</a></span>}
     </div>
     <div className="admin-lead-details"><strong>Project details</strong><p>{lead.details}</p></div>
     <div className="admin-email-status" aria-label="Email notification delivery">

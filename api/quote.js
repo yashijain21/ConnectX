@@ -1,5 +1,6 @@
 import { leadsCollection } from '../lib/server/mongodb.js'
 import { emailFailure, emailJsConfig, sendOwnerAndCustomer } from '../lib/server/emailjs.js'
+import { uploadBoqFile } from '../lib/server/cloudinary.js'
 
 const SALES_EMAIL = 'sales@connectx-tech.com'
 const MAX_FILE_BYTES = 4 * 1024 * 1024
@@ -52,15 +53,16 @@ export async function POST(request) {
   if (!name || !company || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !allowedSolutions.has(solution) || !details) return json(400, { error: 'Please complete all required fields with a valid work email.' })
 
   const file = form.get('boq_file')
-  const attachments = []
+  let attachment = null
   if (file instanceof File && file.size > 0) {
     const extension = file.name.split('.').pop()?.toLowerCase()
     if (!extension || !allowedExtensions.has(extension)) return json(400, { error: 'Attach a PDF, XLSX, XLS, DOCX, DOC or CSV file.' })
     if (file.size > MAX_FILE_BYTES) return json(413, { error: 'BOQ files must be 4 MB or smaller.' })
-    attachments.push({
-      filename: file.name.replace(/[\r\n]/g, '_').slice(0, 180),
-      content: Buffer.from(await file.arrayBuffer()),
-    })
+    try { attachment = await uploadBoqFile(file) }
+    catch (error) {
+      console.error('ConnectX BOQ upload failed:', error?.message || error?.name || 'UnknownError')
+      return json(503, { error: 'We could not upload the attached file to Cloudinary. Please try again or submit the enquiry without an attachment.' })
+    }
   }
 
   const ownerEmail = process.env.OWNER_EMAIL || SALES_EMAIL
@@ -75,7 +77,7 @@ export async function POST(request) {
 
   const lead = {
     name, company, email, role, solution, details,
-    attachment: file instanceof File && file.size > 0 ? { filename: file.name.replace(/[\r\n]/g, '_').slice(0, 180), size: file.size } : null,
+    attachment,
     createdAt: new Date(),
     notifications: { owner: 'pending', customer: 'pending' },
   }
@@ -103,7 +105,8 @@ export async function POST(request) {
     customer_email: safeHtml(email),
     solution: safeHtml(solution),
     project_details: safeHtml(details),
-    attachment_filename: safeHtml(attachments[0]?.filename || 'No file attached'),
+    attachment_filename: safeHtml(attachment?.filename || 'No file attached'),
+    attachment_url: safeHtml(attachment?.url || ''),
   }
   const ownerParams = {
     ...sharedTemplateParams,
@@ -121,7 +124,7 @@ export async function POST(request) {
     email_subject: 'We received your ConnectX project enquiry',
     intro_message: safeHtml(`Thank you for contacting ConnectX Technologies. We have received your enquiry and shared it with our Sales team at ${ownerEmail}.`),
   }
-  const [ownerResult, customerResult] = await sendOwnerAndCustomer(mailConfig, ownerParams, customerParams, attachments[0], sourceOrigin)
+  const [ownerResult, customerResult] = await sendOwnerAndCustomer(mailConfig, ownerParams, customerParams, sourceOrigin)
   const ownerSent = ownerResult.status === 'fulfilled'
   const customerSent = customerResult.status === 'fulfilled'
   if (!ownerSent || (ownerResult.status === 'fulfilled' && !ownerResult.value.ok)) {

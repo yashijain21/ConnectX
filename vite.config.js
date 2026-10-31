@@ -29,6 +29,9 @@ const localServerEnvVars = [
   'ADMIN_EMAIL',
   'ADMIN_PASSWORD',
   'ADMIN_SESSION_SECRET',
+  'CLOUDINARY_CLOUD_NAME',
+  'CLOUDINARY_API_KEY',
+  'CLOUDINARY_API_SECRET',
 ]
 
 function localApiPlugin() {
