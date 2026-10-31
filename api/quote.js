@@ -1,4 +1,5 @@
 import { leadsCollection } from '../lib/server/mongodb.js'
+import { emailFailure, emailJsConfig, sendOwnerAndCustomer } from '../lib/server/emailjs.js'
 
 const SALES_EMAIL = 'sales@connectx-tech.com'
 const MAX_FILE_BYTES = 4 * 1024 * 1024
@@ -9,34 +10,11 @@ const allowedSolutions = new Set([
   'Smart Building & IoT', 'Power Solutions', 'GPON Solutions',
 ])
 const json = (status, payload) => Response.json(payload, { status, headers: { 'Cache-Control': 'no-store' } })
-const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])
 const safeSubject = value => String(value).replace(/[\r\n]+/g, ' ').slice(0, 180)
-
-async function emailFailure(result) {
-  if (result.status === 'rejected') return result.reason?.message || result.reason?.name || 'NetworkError'
-  try {
-    const body = await result.value.clone().json()
-    const message = typeof body.message === 'string' ? body.message : ''
-    const name = typeof body.name === 'string' ? body.name : ''
-    if (message || name) return [name, message].filter(Boolean).join(': ').replace(/[\r\n]+/g, ' ').slice(0, 400)
-  } catch {
-    return `HTTP ${result.value.status}; provider did not return JSON error details`
-  }
-  return `HTTP ${result.value.status}`
-}
-
-async function sendEmail(apiKey, message) {
-  return fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(message),
-  })
-}
+const safeHtml = (value = '') => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])
 
 export async function POST(request) {
-  const apiKey = process.env.RESEND_API_KEY
-  const from = process.env.RESEND_FROM_EMAIL
-  if (!apiKey || !from) return json(503, { error: 'The enquiry service is not configured yet. Please email sales@connectx-tech.com.' })
+  const mailConfig = emailJsConfig()
   if (Number(request.headers.get('content-length') || 0) > MAX_FILE_BYTES + 128 * 1024) return json(413, { error: 'The upload is too large. BOQ files must be 4 MB or smaller.' })
 
   let form
@@ -57,7 +35,10 @@ export async function POST(request) {
     const extension = file.name.split('.').pop()?.toLowerCase()
     if (!extension || !allowedExtensions.has(extension)) return json(400, { error: 'Attach a PDF, XLSX, XLS, DOCX, DOC or CSV file.' })
     if (file.size > MAX_FILE_BYTES) return json(413, { error: 'BOQ files must be 4 MB or smaller.' })
-    attachments.push({ filename: file.name.replace(/[\r\n]/g, '_').slice(0, 180), content: Buffer.from(await file.arrayBuffer()).toString('base64') })
+    attachments.push({
+      filename: file.name.replace(/[\r\n]/g, '_').slice(0, 180),
+      content: Buffer.from(await file.arrayBuffer()),
+    })
   }
 
   const ownerEmail = process.env.OWNER_EMAIL || SALES_EMAIL
@@ -83,34 +64,62 @@ export async function POST(request) {
     return json(503, { error: 'We could not save your enquiry. Please try again later.' })
   }
 
-  const safeName = escapeHtml(name), safeCompany = escapeHtml(company), safeRole = escapeHtml(role)
-  const safeSolution = escapeHtml(solution), safeEmail = escapeHtml(email), safeDetails = escapeHtml(details).replace(/\n/g, '<br>')
-  const [ownerResult, customerResult] = await Promise.allSettled([
-    sendEmail(apiKey, {
-      from, to: [ownerEmail], reply_to: email, subject: safeSubject(`Website enquiry: ${solution} — ${company}`),
-      html: `<h2>New ConnectX website enquiry</h2><p><b>Name:</b> ${safeName}</p><p><b>Company:</b> ${safeCompany}</p><p><b>Role:</b> ${safeRole || 'Not provided'}</p><p><b>Email:</b> ${safeEmail}</p><p><b>Solution:</b> ${safeSolution}</p><p><b>Project details:</b><br>${safeDetails}</p>`,
-      attachments,
-    }),
-    sendEmail(apiKey, {
-      from, to: [email], reply_to: ownerEmail, subject: 'We received your ConnectX project enquiry',
-      text: `Hello ${name},\n\nThank you for contacting ConnectX Technologies. We have received your project enquiry and shared it with our Sales team.\n\nConnectX Technologies\n${ownerEmail}`,
-      html: `<p>Hello ${safeName},</p><p>Thank you for contacting ConnectX Technologies. We have received your project enquiry and shared it with our Sales team.</p><p>ConnectX Technologies<br><a href="mailto:${ownerEmail}">${escapeHtml(ownerEmail)}</a></p>`,
-    }),
-  ])
-  const ownerSent = ownerResult.status === 'fulfilled' && ownerResult.value.ok
-  const customerSent = customerResult.status === 'fulfilled' && customerResult.value.ok
-  if (!ownerSent) console.error('ConnectX lead owner notification failed:', await emailFailure(ownerResult))
-  if (!customerSent) console.error('ConnectX lead customer confirmation failed:', await emailFailure(customerResult))
+  if (!mailConfig) {
+    try {
+      await leads.updateOne({ _id: leadId }, { $set: { notifications: { owner: 'failed', customer: 'failed' } } })
+    } catch (error) {
+      console.error('Unable to update ConnectX lead email status:', error?.name || 'UnknownError')
+    }
+    console.error('ConnectX lead notifications are not configured: set EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, and EMAILJS_PUBLIC_KEY.')
+    return json(202, { message: 'Your enquiry was saved, but email is not configured yet. Please contact sales@connectx-tech.com.' })
+  }
+
+  const sharedTemplateParams = {
+    customer_name: safeHtml(name),
+    company: safeHtml(company),
+    role: safeHtml(role || 'Not provided'),
+    customer_email: safeHtml(email),
+    solution: safeHtml(solution),
+    project_details: safeHtml(details),
+    attachment_filename: safeHtml(attachments[0]?.filename || 'No file attached'),
+  }
+  const ownerParams = {
+    ...sharedTemplateParams,
+    to_email: ownerEmail,
+    recipient_name: 'ConnectX Sales',
+    reply_to: email,
+    email_subject: safeSubject(`Website enquiry: ${solution} — ${company}`),
+    intro_message: 'A new project enquiry was submitted through the ConnectX website.',
+  }
+  const customerParams = {
+    ...sharedTemplateParams,
+    to_email: email,
+    recipient_name: safeHtml(name),
+    reply_to: ownerEmail,
+    email_subject: 'We received your ConnectX project enquiry',
+    intro_message: safeHtml(`Thank you for contacting ConnectX Technologies. We have received your enquiry and shared it with our Sales team at ${ownerEmail}.`),
+  }
+  const [ownerResult, customerResult] = await sendOwnerAndCustomer(mailConfig, ownerParams, customerParams, attachments[0])
+  const ownerSent = ownerResult.status === 'fulfilled'
+  const customerSent = customerResult.status === 'fulfilled'
+  if (!ownerSent || (ownerResult.status === 'fulfilled' && !ownerResult.value.ok)) {
+    console.error('ConnectX lead owner notification failed:', emailFailure(ownerResult))
+  }
+  if (!customerSent || (customerResult.status === 'fulfilled' && !customerResult.value.ok)) {
+    console.error('ConnectX lead customer confirmation failed:', emailFailure(customerResult))
+  }
+  const ownerDelivered = ownerSent && ownerResult.value.ok
+  const customerDelivered = customerSent && customerResult.value.ok
   try {
-    await leads.updateOne({ _id: leadId }, { $set: { notifications: { owner: ownerSent ? 'sent' : 'failed', customer: customerSent ? 'sent' : 'failed' } } })
+    await leads.updateOne({ _id: leadId }, { $set: { notifications: { owner: ownerDelivered ? 'sent' : 'failed', customer: customerDelivered ? 'sent' : 'failed' } } })
   } catch (error) {
     console.error('Unable to update ConnectX lead email status:', error?.name || 'UnknownError')
   }
-  const message = ownerSent && customerSent
+  const message = ownerDelivered && customerDelivered
     ? 'Thank you. Your enquiry was saved and confirmation emails were sent to you and ConnectX Sales.'
-    : ownerSent
+    : ownerDelivered
       ? 'Your enquiry was saved and sent to ConnectX Sales, but we could not send your confirmation email.'
-      : customerSent
+      : customerDelivered
         ? 'Your enquiry was saved and a confirmation was emailed to you, but ConnectX Sales could not be notified. Please contact sales@connectx-tech.com.'
         : 'Your enquiry was saved, but email notifications could not be sent. Please contact sales@connectx-tech.com.'
   return json(202, { message })
