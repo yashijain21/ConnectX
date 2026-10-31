@@ -12,6 +12,19 @@ const json = (status, payload) => Response.json(payload, { status, headers: { 'C
 const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])
 const safeSubject = value => String(value).replace(/[\r\n]+/g, ' ').slice(0, 180)
 
+async function emailFailure(result) {
+  if (result.status === 'rejected') return result.reason?.message || result.reason?.name || 'NetworkError'
+  try {
+    const body = await result.value.clone().json()
+    const message = typeof body.message === 'string' ? body.message : ''
+    const name = typeof body.name === 'string' ? body.name : ''
+    if (message || name) return [name, message].filter(Boolean).join(': ').replace(/[\r\n]+/g, ' ').slice(0, 400)
+  } catch {
+    return `HTTP ${result.value.status}; provider did not return JSON error details`
+  }
+  return `HTTP ${result.value.status}`
+}
+
 async function sendEmail(apiKey, message) {
   return fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -86,8 +99,8 @@ export async function POST(request) {
   ])
   const ownerSent = ownerResult.status === 'fulfilled' && ownerResult.value.ok
   const customerSent = customerResult.status === 'fulfilled' && customerResult.value.ok
-  if (!ownerSent) console.error('ConnectX lead owner notification failed:', ownerResult.status === 'fulfilled' ? ownerResult.value.status : ownerResult.reason?.name || 'NetworkError')
-  if (!customerSent) console.error('ConnectX lead customer confirmation failed:', customerResult.status === 'fulfilled' ? customerResult.value.status : customerResult.reason?.name || 'NetworkError')
+  if (!ownerSent) console.error('ConnectX lead owner notification failed:', await emailFailure(ownerResult))
+  if (!customerSent) console.error('ConnectX lead customer confirmation failed:', await emailFailure(customerResult))
   try {
     await leads.updateOne({ _id: leadId }, { $set: { notifications: { owner: ownerSent ? 'sent' : 'failed', customer: customerSent ? 'sent' : 'failed' } } })
   } catch (error) {
