@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from './Icon'
 import { solutions, industries, brandGroups, standardLogoGroups } from '../data/content'
@@ -15,3 +16,14 @@ export function BrandStrip() { return <div className="brand-strip-outer"><div cl
 export function StandardsStrip() { return <div className="standards-strip"><span className="eyebrow">STANDARDS REFERENCED IN THE BRIEF</span><div className="standards-logo-groups">{standardLogoGroups.map(group=><div className="standards-logo-group" key={group.label}><span>{group.label}</span><div>{group.logos.map(logo=><img key={logo.src} src={logo.src} alt={logo.alt}/>)}</div></div>)}</div><p>Product applicability and any ConnectX certification claims require verification.</p></div> }
 
 export function FeatureRow({ icon, title, text }) { return <div className="feature-row"><span className="feature-icon"><Icon name={icon}/></span><div><h3>{title}</h3><p>{text}</p></div></div> }
+
+const solutionStartingPoints={
+  'Commercial':['structured-cabling','active-network-ip','security-surveillance','smart-building-iot'],
+  'Data Centres':['structured-cabling','active-network-ip','data-center-critical-power','power-solutions'],
+  'Hospitality & Healthcare':['active-network-ip','security-surveillance','smart-building-iot','power-solutions'],
+  'Education':['structured-cabling','active-network-ip','security-surveillance','gpon-solutions'],
+  'Industrial':['active-network-ip','security-surveillance','power-solutions','smart-building-iot'],
+  'Residential':['structured-cabling','security-surveillance','smart-building-iot','gpon-solutions'],
+  'Government':['structured-cabling','active-network-ip','security-surveillance','data-center-critical-power'],
+}
+export function SolutionFinder(){const [selected,setSelected]=useState('Commercial');const picks=(solutionStartingPoints[selected]||[]).map(id=>solutions.find(item=>item.id===id)).filter(Boolean);return <div className="solution-finder" aria-labelledby="solution-finder-title"><div className="finder-heading"><div><span className="eyebrow">A USEFUL PLACE TO START</span><h3 id="solution-finder-title">What kind of environment are you working on?</h3><p>Choose an environment to explore related solution areas.</p></div><span className="finder-step">01 <i/> 02</span></div><div className="finder-tabs" role="group" aria-label="Choose a project environment">{industries.map(item=><button key={item.name} type="button" className={selected===item.name?'is-selected':''} aria-pressed={selected===item.name} onClick={()=>setSelected(item.name)}>{item.name}</button>)}</div><div className="finder-results" key={selected} aria-live="polite"><span className="finder-result-label">SUGGESTED AREAS FOR <strong>{selected}</strong></span><div className="finder-cards">{picks.map((solution,index)=><Link className="finder-card" to={`/solutions/${solution.id}`} key={solution.id} style={{'--finder-delay':`${index*65}ms`}}><span className="finder-card-icon"><Icon name={solution.icon} size={20}/></span><span><small>{solution.number} / SOLUTION</small><strong>{solution.short}</strong></span><Icon className="finder-card-arrow" name="arrow-up-right" size={17}/></Link>)}</div></div><p className="finder-note">These are starting points only. Share your project scope with our team for tailored guidance.</p></div>}
