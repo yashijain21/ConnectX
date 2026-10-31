@@ -63,3 +63,20 @@
   .main-nav>a,.nav-dropdown>a{font-size:10px}
   .header-actions .button{padding:10px 11px;font-size:10px;gap:7px}
 }
+
+/* Subtle motion makes long pages feel responsive while respecting reduced-motion settings. */
+.scroll-progress{position:fixed;z-index:120;top:0;left:0;width:var(--scroll-progress,0%);height:3px;background:linear-gradient(90deg,var(--red),#7892ff);box-shadow:0 0 12px #7892ff80;pointer-events:none;transition:width .08s linear}
+.motion-in{opacity:0;transform:translate3d(0,22px,0);transition:opacity .65s ease var(--motion-delay,0ms),transform .65s cubic-bezier(.2,.7,.2,1) var(--motion-delay,0ms)}
+.motion-in.motion-visible{opacity:1;transform:translate3d(0,0,0)}
+.solution-card,.industry-card,.service-card,.brand-badge,.principle-card{transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.solution-card:hover,.industry-card:hover,.service-card:hover,.principle-card:hover{transform:translateY(-5px);box-shadow:0 15px 34px #14235612}
+.solution-card-visual{overflow:hidden}.solution-card-visual:not(.solution-card-visual-gallery){background-size:cover;transition:background-size .4s ease,filter .4s ease}.solution-card:hover .solution-card-visual{filter:saturate(1.12)}
+.button{transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease,color .2s ease}.button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 9px 22px #101c5125}.button:active:not(:disabled){transform:translateY(0)}
+.whatsapp-button{animation:whatsapp-arrive .55s .8s both,whatsapp-pulse 3.8s 2s infinite}
+.form-spinner{display:inline-block;width:14px;height:14px;margin-right:7px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;vertical-align:-2px;animation:cx-spin .7s linear infinite}
+.hero-kicker>span{animation:kicker-pulse 2.2s ease-in-out infinite}
+@keyframes cx-spin{to{transform:rotate(360deg)}}
+@keyframes kicker-pulse{50%{box-shadow:0 0 0 6px #ffffff18}}
+@keyframes whatsapp-arrive{from{opacity:0;transform:translateY(12px) scale(.85)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes whatsapp-pulse{0%,82%,100%{box-shadow:0 6px 24px #13245b25}88%{box-shadow:0 0 0 10px #2a3f9d20,0 6px 24px #13245b25}}
+@media(prefers-reduced-motion:reduce){.scroll-progress{display:none}.motion-in,.motion-in.motion-visible{opacity:1;transform:none;transition:none}.solution-card,.industry-card,.service-card,.principle-card,.button,.whatsapp-button{animation:none!important;transition:none!important}}
