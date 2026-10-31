@@ -9,12 +9,24 @@ const localApiRoutes = {
   '/api/newsletter': { POST: newsletterPost, GET: newsletterGet },
 }
 
+const localServerEnvVars = [
+  'MONGODB_URI',
+  'MONGODB_DATABASE',
+  'OWNER_EMAIL',
+  'EMAILJS_SERVICE_ID',
+  'EMAILJS_TEMPLATE_ID',
+  'EMAILJS_PUBLIC_KEY',
+  'EMAILJS_PRIVATE_KEY',
+  'RESEND_API_KEY',
+  'RESEND_AUDIENCE_ID',
+]
+
 function localApiPlugin() {
   return {
     name: 'connectx-local-api',
     configureServer(server) {
       const localEnv = loadEnv(server.config.mode, process.cwd(), '')
-      for (const name of ['RESEND_API_KEY', 'RESEND_FROM_EMAIL', 'RESEND_AUDIENCE_ID']) {
+      for (const name of localServerEnvVars) {
         if (!process.env[name] && localEnv[name]) process.env[name] = localEnv[name]
       }
       server.middlewares.use(async (req, res, next) => {
