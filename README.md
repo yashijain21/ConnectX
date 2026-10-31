@@ -8,13 +8,19 @@ Responsive React website built with Vite and Tailwind CSS. The site copy, soluti
 2. Copy `.env.example` to `.env.local` and fill in confirmed integrations.
 3. Run `npm run dev`.
 
-## Integrations
+## Lead dashboard and email
 
-- `VITE_QUOTE_ENDPOINT`: HTTPS endpoint that accepts `multipart/form-data` fields and the optional BOQ file. Until set, the quote form validates input and tells visitors that their request was not sent.
-- `VITE_NEWSLETTER_ENDPOINT`: HTTPS endpoint that accepts a form-data `email` field. Until set, the subscription form explains that signup is unavailable.
+- The quote API stores submissions in the MongoDB Atlas `leads` collection. Set server-only `MONGODB_URI` and `MONGODB_DATABASE`.
+- The admin page is available at `/admin`. Configure `ADMIN_EMAIL`, a unique `ADMIN_PASSWORD` of at least 12 characters, and `ADMIN_SESSION_SECRET` with at least 32 characters. The API issues an eight-hour, signed, HttpOnly, SameSite=Strict session cookie; it is Secure in production. Never use a `VITE_` prefix for these values.
+- `RESEND_API_KEY` and `RESEND_FROM_EMAIL` are required for email. `OWNER_EMAIL` receives lead notifications and defaults in the example configuration to `sales@connectx-tech.com`; the submitting customer receives an acknowledgement. Set a sender address verified with Resend.
+- Add these values in the Vercel project’s Environment Variables before deploying. For local API testing, use `.env.local` and `vercel dev`; plain Vite development does not run Vercel API functions.
+- The database connection is reused per warm serverless instance and starts with a small pool suitable for this low-volume lead workload. Monitor Atlas connection counts and adjust only if observed traffic or pool wait times require it.
+
+## Other integrations
+
 - `VITE_WHATSAPP_NUMBER`: verified international phone number, digits only, for the floating WhatsApp link. Until set, the floating action opens the contact page.
 - `VITE_GA4_ID`: verified Google Analytics measurement ID (`G-...`). Analytics is not loaded until configured.
 
-The current `hello@connectx.example` address and regional office fields are placeholders and must be replaced with approved ConnectX contact details. Brand logos, partner names and certifications are intentionally omitted until approved assets and verified details are supplied. The map embed is a location search placeholder until an approved office location is known.
+The supplied ConnectX and ExTell logos and standards marks are stored in `public/logos` and used in the header, partner portfolio, and standards page. Partner logos for the remaining brand categories and product-specific certification evidence have not been supplied. The map embed is a location search placeholder until an approved office location is known.
 
-Images are loaded from Unsplash image URLs. Replace them with approved, locally hosted ConnectX photography for production. Configure the production host to serve `index.html` as the fallback for client-side routes, and serve the site over HTTPS.
+Most images are loaded from Unsplash image URLs. The cabinet photo on the homepage and Structured Cabling card is from Wikimedia Commons under CC BY-SA 3.0 and is credited in the UI. Replace stock imagery with approved, locally hosted ConnectX photography for production. Configure the production host to serve `index.html` as the fallback for client-side routes, and serve the site over HTTPS.

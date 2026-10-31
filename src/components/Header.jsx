@@ -4,8 +4,7 @@ import Icon from './Icon'
 import { company } from '../data/content'
 import { navLinks, solutions } from '../data/content'
 
-const cxMark = <span className="brand-mark" aria-hidden="true"><span>C</span><span>X</span></span>
-export function Brand({ inverse = false }) { return <Link className={`brand-lockup ${inverse ? 'brand-inverse' : ''}`} to="/" aria-label="ConnectX Technologies home">{cxMark}<span className="brand-text"><strong>CONNECT<span>X</span></strong><small>TECHNOLOGIES</small></span></Link> }
+export function Brand({ inverse = false }) { return <Link className={`brand-lockup ${inverse ? 'brand-inverse' : ''}`} to="/" aria-label="ConnectX Technologies home"><img className="brand-logo" src="/logos/connectx-horizontal.png" alt="ConnectX Technologies"/></Link> }
 
 export default function Header() {
   const [open, setOpen] = useState(false)
