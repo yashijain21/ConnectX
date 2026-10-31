@@ -119,7 +119,7 @@ export default function Admin() {
         <span className="eyebrow">RESTRICTED ACCESS</span><h1>Admin sign in</h1><p>Sign in with the admin credentials configured in the deployment environment.</p>
         {error && <p className="admin-message admin-error" role="alert">{error}</p>}
         <label htmlFor="admin-email">Admin email</label><input id="admin-email" type="email" name="email" autoComplete="username" required/>
-        <label htmlFor="admin-password">Password</label><input id="admin-password" type="password" name="password" autoComplete="current-password" required/>
+        <label htmlFor="admin-password">Password</label><input id="admin-password" type="password" name="password" autoComplete="current-password" minLength={8} maxLength={8} pattern="[A-Za-z0-9]{8}" title="Enter the 8-character alphanumeric admin password." required/>
         <button className="button button-primary" type="submit" disabled={loginBusy}>{loginBusy ? 'Signing in…' : 'Sign in'}</button>
       </form>
     </div>}

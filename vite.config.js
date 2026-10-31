@@ -3,10 +3,16 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { POST as quotePost, GET as quoteGet } from './api/quote.js'
 import { POST as newsletterPost, GET as newsletterGet } from './api/newsletter.js'
+import { POST as adminLoginPost, GET as adminLoginGet } from './api/admin/login.js'
+import { POST as adminLogoutPost } from './api/admin/logout.js'
+import { GET as adminLeadsGet } from './api/admin/leads.js'
 
 const localApiRoutes = {
   '/api/quote': { POST: quotePost, GET: quoteGet },
   '/api/newsletter': { POST: newsletterPost, GET: newsletterGet },
+  '/api/admin/login': { POST: adminLoginPost, GET: adminLoginGet },
+  '/api/admin/logout': { POST: adminLogoutPost },
+  '/api/admin/leads': { GET: adminLeadsGet },
 }
 
 const localServerEnvVars = [
@@ -20,6 +26,9 @@ const localServerEnvVars = [
   'EMAILJS_SOURCE_ORIGIN',
   'RESEND_API_KEY',
   'RESEND_AUDIENCE_ID',
+  'ADMIN_EMAIL',
+  'ADMIN_PASSWORD',
+  'ADMIN_SESSION_SECRET',
 ]
 
 function localApiPlugin() {
