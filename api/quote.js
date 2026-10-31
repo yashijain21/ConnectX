@@ -13,8 +13,30 @@ const json = (status, payload) => Response.json(payload, { status, headers: { 'C
 const safeSubject = value => String(value).replace(/[\r\n]+/g, ' ').slice(0, 180)
 const safeHtml = (value = '') => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character])
 
+function emailJsSourceOrigin(request) {
+  const configuredOrigin = process.env.EMAILJS_SOURCE_ORIGIN
+  const endpointOrigin = new URL(request.url).origin
+  if (configuredOrigin) {
+    let expectedOrigin
+    try { expectedOrigin = new URL(configuredOrigin).origin }
+    catch { return null }
+    const requestOrigin = request.headers.get('origin')
+    if (requestOrigin) {
+      try { if (new URL(requestOrigin).origin !== expectedOrigin) return null }
+      catch { return null }
+    }
+    return expectedOrigin
+  }
+  const requestOrigin = request.headers.get('origin')
+  if (!requestOrigin) return endpointOrigin
+  try { return new URL(requestOrigin).origin }
+  catch { return null }
+}
+
 export async function POST(request) {
   const mailConfig = emailJsConfig()
+  const sourceOrigin = emailJsSourceOrigin(request)
+  if (!sourceOrigin) return json(403, { error: 'This enquiry must be submitted from the ConnectX website.' })
   if (Number(request.headers.get('content-length') || 0) > MAX_FILE_BYTES + 128 * 1024) return json(413, { error: 'The upload is too large. BOQ files must be 4 MB or smaller.' })
 
   let form
@@ -99,7 +121,7 @@ export async function POST(request) {
     email_subject: 'We received your ConnectX project enquiry',
     intro_message: safeHtml(`Thank you for contacting ConnectX Technologies. We have received your enquiry and shared it with our Sales team at ${ownerEmail}.`),
   }
-  const [ownerResult, customerResult] = await sendOwnerAndCustomer(mailConfig, ownerParams, customerParams, attachments[0])
+  const [ownerResult, customerResult] = await sendOwnerAndCustomer(mailConfig, ownerParams, customerParams, attachments[0], sourceOrigin)
   const ownerSent = ownerResult.status === 'fulfilled'
   const customerSent = customerResult.status === 'fulfilled'
   if (!ownerSent || (ownerResult.status === 'fulfilled' && !ownerResult.value.ok)) {

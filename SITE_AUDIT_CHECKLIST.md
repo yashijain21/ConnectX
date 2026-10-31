@@ -19,7 +19,7 @@ The site was audited before implementation. No PDF copy was present in the proje
 - [x] Standards page and homepage strip display the supplied ANSI, TIA, ISO, IEC, RoHS, ECHA, UL, and ETL artwork, alongside IEEE text; applicability is unverified and no certification claim is made.
 - [x] Homepage headline and tagline are present. Restored five value points verbatim from the existing committed homepage: A connected portfolio, A partner mindset, Project-aware support, Practical expertise, and Regional perspective.
 - [x] Contact page and footer include the supplied email, phone, complete Adliya address, map embed, and working-hours placeholder.
-- [x] Quote API sends to Sales and attempts an acknowledgement email via Resend; form returns clear errors when mail configuration is absent. Newsletter API uses a Resend audience when configured.
+- [x] Quote API stores leads in MongoDB and sends owner/customer messages through EmailJS; newsletter signup uses a Resend audience when configured.
 - [x] Added privacy, terms, and cookie pages; consent-gated GA4 loading; quote/newsletter event hooks; configured social link slots; sitemap, robots.txt, and Organization structured data.
 - [x] Added `.env.example` with non-secret deployment settings.
 - [x] Added Vite development middleware for the existing quote and newsletter handlers so local `/api/quote` and `/api/newsletter` requests no longer 404.
@@ -50,14 +50,14 @@ The site was audited before implementation. No PDF copy was present in the proje
 - [x] `npm.cmd run build` succeeds.
 - [x] `node --check` passes for both Vercel API handlers.
 - [x] Local route smoke check returned HTTP 200 for all main routes, seven solution routes, three legal pages, sitemap and robots file.
-- [x] Quote and newsletter handlers were exercised with mocked Resend responses; quote internal recipient and acknowledgement recipient were checked. No real email was sent.
-- [x] Quote handler returned 503 with no credentials and newsletter rejected invalid email.
+- [x] Quote API local behavior and source-origin forwarding were checked without sending real email. Newsletter handler was tested with mocked Resend responses.
+- [x] Reviewed production Vercel logs showing EmailJS 403 responses for both owner and customer sends. Added source-origin forwarding and clearer status text to the EmailJS adapter.
 - [x] Local POST smoke checks reached both API handlers and returned clear 503 configuration messages instead of 404s.
 
 ## Pending source approval or deployment configuration
 
 - [ ] Redeploy the project to Vercel to activate the locally added rewrite, API functions, SEO and static sitemap. Live non-root paths were 404 during the initial audit; they have not yet been rechecked after deployment.
-- [ ] Configure `RESEND_API_KEY`, verified `RESEND_FROM_EMAIL`, and `RESEND_AUDIENCE_ID` in Vercel. Until then, quote submissions return a configuration error and no email is sent.
+- [ ] Add the deployed website origin to EmailJS Domains if domain allowlisting is enabled. Redeploy the source-origin forwarding fix and verify a new quote. Keep EmailJS service/template/public/private keys and MongoDB variables configured for the Production environment; Resend audience/key remain newsletter-only.
 - [ ] Supply approved network-rack and access-control/intercom/CCTV/GPON photography, remaining verified brand names/logos, and any required image permissions.
 - [ ] Supply a valid WhatsApp-enabled number, GA4 measurement ID, official social profile URLs, and office hours.
 - [ ] Confirm which listed standards apply to which supplied products and provide supporting certification documents before making claims.
