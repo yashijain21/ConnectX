@@ -1,0 +1,328 @@
+/* Homepage — Who We Support section redesign. */
+.industries-section {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(74px, 8vw, 112px) 0 clamp(76px, 8vw, 110px);
+  background:
+    radial-gradient(ellipse at 86% 20%, rgba(218, 228, 255, .62), transparent 34%),
+    linear-gradient(180deg, #f8faff 0%, #f2f5fc 100%);
+}
+
+.industries-section > .wrap {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  isolation: isolate;
+}
+
+.industries-section > .wrap::before,
+.industries-section > .wrap::after {
+  position: absolute;
+  z-index: -1;
+  display: block;
+  content: "";
+  pointer-events: none;
+}
+
+/* A layered, staggered collage using the site's existing Unsplash image source. */
+.industries-section > .wrap::before {
+  top: 4px;
+  right: 2px;
+  width: min(47%, 520px);
+  height: 330px;
+  border: 10px solid rgba(226, 234, 250, .88);
+  border-radius: 30px 92px 30px 30px;
+  background-color: #dce7fa;
+  background-image:
+    linear-gradient(180deg, transparent 56%, rgba(26, 39, 102, .16)),
+    url("https://images.unsplash.com/photo-1486406146926-c627a92ad1c3?auto=format&fit=crop&w=1000&q=80"),
+    url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=520&q=78");
+  background-repeat: no-repeat;
+  background-position: center, left center, right 12px top 12px;
+  background-size: 100% 100%, 66% 100%, 31% 42%;
+  box-shadow: 0 24px 58px rgba(26, 39, 102, .15);
+  transform: rotate(1.2deg);
+}
+
+.industries-section > .wrap::after {
+  top: 184px;
+  right: 5px;
+  width: min(31%, 335px);
+  height: 164px;
+  border: 8px solid #fff;
+  border-radius: 18px 18px 54px 18px;
+  background: #e6edf9 url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=700&q=78") center 48% / cover no-repeat;
+  box-shadow: 0 16px 38px rgba(26, 39, 102, .2);
+  transform: rotate(-3deg);
+}
+
+.industries-section .section-heading {
+  grid-row: 1;
+  display: block;
+  width: min(54%, 610px);
+  min-height: 350px;
+  margin: 0;
+  padding: 5px 0 28px;
+}
+
+.industries-section .section-heading .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--blue, #2a3f9d);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .17em;
+}
+
+.industries-section .section-heading .eyebrow::before {
+  width: 24px;
+  height: 2px;
+  background: var(--red, #e21f26);
+  content: "";
+}
+
+.industries-section .section-heading h2 {
+  max-width: 610px;
+  margin: 22px 0 19px;
+  color: transparent;
+  background: linear-gradient(90deg, #1a2766 0%, #1a2766 69%, #e21f26 70%, #e21f26 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-size: clamp(37px, 4.15vw, 60px);
+  font-weight: 760;
+  letter-spacing: -.055em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.industries-section .section-heading h2::after {
+  display: block;
+  width: 58px;
+  height: 4px;
+  margin-top: 13px;
+  border-radius: 4px;
+  background: var(--red, #e21f26);
+  content: "";
+}
+
+.industries-section .section-heading > p {
+  max-width: 475px;
+  margin: 0;
+  color: #64708a;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Keep the existing section CTA and card destinations intact. */
+.industries-section .section-foot {
+  grid-row: 2;
+  display: flex;
+  justify-content: flex-start;
+  margin: -20px 0 34px;
+}
+
+.industries-section .section-foot > span { display: none; }
+.industries-section .section-foot .text-link {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 0 24px;
+  border: 1px solid #e21f26;
+  border-radius: 7px;
+  background: #e21f26;
+  box-shadow: 0 10px 24px rgba(226, 31, 38, .18);
+  color: #fff;
+  font-size: 0;
+  font-weight: 700;
+  transition: background-color .22s ease, box-shadow .22s ease, transform .22s ease;
+}
+
+.industries-section .section-foot .text-link::before {
+  content: "Explore Our Solutions";
+  font-size: 14px;
+}
+
+.industries-section .section-foot .text-link svg { width: 17px; height: 17px; }
+.industries-section .section-foot .text-link:hover {
+  transform: translateY(-2px);
+  background: #c81720;
+  box-shadow: 0 14px 28px rgba(226, 31, 38, .24);
+}
+
+.industries-section .industry-grid {
+  grid-row: 3;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  border: 0;
+  background: transparent;
+}
+
+.industries-section .industry-card {
+  position: relative;
+  display: flex;
+  min-height: 226px;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+  padding: 27px 28px 30px 31px;
+  border: 1px solid #e5e9f2;
+  border-left: 3px solid #2a3f9d;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(26, 39, 102, .065);
+  color: #1a2766;
+  isolation: isolate;
+  text-decoration: none;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.industries-section .industry-card:nth-child(2) { border-left-color: #e21f26; }
+.industries-section .industry-card:nth-child(n + 5) { display: none; }
+
+.industries-section .industry-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: linear-gradient(90deg, #fff 0%, rgba(255,255,255,.97) 46%, rgba(255,255,255,.74) 100%), linear-gradient(0deg, rgba(255,255,255,.88), transparent 75%), var(--industry-image);
+  background-position: center, center, center;
+  background-size: cover;
+  content: "";
+  opacity: .8;
+  transition: transform .55s cubic-bezier(.2,.7,.2,1), opacity .3s ease;
+}
+
+.industries-section .industry-card:nth-child(1) { --industry-image: url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=78"); }
+.industries-section .industry-card:nth-child(2) { --industry-image: url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=78"); }
+.industries-section .industry-card:nth-child(3) { --industry-image: url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=78"); }
+.industries-section .industry-card:nth-child(4) { --industry-image: url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=78"); }
+
+.industries-section .industry-card:hover {
+  transform: translateY(-5px);
+  border-color: #ccd5eb;
+  box-shadow: 0 20px 42px rgba(26, 39, 102, .13);
+}
+.industries-section .industry-card:hover::before { transform: scale(1.055); opacity: .95; }
+.industries-section .industry-num { display: none; }
+.industries-section .industry-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  margin: 0 0 22px;
+  border: 1px solid #dfe7fa;
+  border-radius: 12px;
+  background: #edf2ff;
+  color: #2a3f9d;
+}
+.industries-section .industry-icon svg { width: 22px; height: 22px; }
+.industries-section .industry-card h3 {
+  max-width: calc(100% - 35px);
+  margin: 0 0 7px;
+  color: #1a2766;
+  font-size: clamp(20px, 2vw, 25px);
+  font-weight: 730;
+  letter-spacing: -.035em;
+  line-height: 1.2;
+}
+.industries-section .industry-card p {
+  max-width: 92%;
+  margin: 0;
+  color: #69738a;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.industries-section .industry-card-arrow {
+  right: 20px;
+  bottom: 20px;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid #edf0f6;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(26, 39, 102, .1);
+  color: #1a2766;
+  transition: transform .25s ease, color .25s ease, background-color .25s ease;
+}
+.industries-section .industry-card:hover .industry-card-arrow {
+  transform: translateX(4px);
+  background: #1a2766;
+  color: #fff;
+}
+
+@media (min-width: 1440px) {
+  .industries-section > .wrap::before { height: 360px; }
+  .industries-section > .wrap::after { top: 206px; height: 176px; }
+}
+
+@media (max-width: 900px) {
+  .industries-section { padding-top: 76px; }
+  .industries-section > .wrap::before { width: 44%; height: 290px; }
+  .industries-section > .wrap::after { top: 165px; width: 29%; height: 145px; }
+  .industries-section .section-heading { width: 58%; min-height: 320px; }
+  .industries-section .section-heading h2 { font-size: clamp(36px, 5vw, 48px); }
+  .industries-section .industry-card { min-height: 215px; padding: 23px 22px 26px 25px; }
+}
+
+@media (max-width: 620px) {
+  .industries-section {
+    padding: 64px 0 72px;
+    background: radial-gradient(ellipse at 80% 34%, rgba(218, 228, 255, .65), transparent 36%), linear-gradient(180deg, #f8faff, #f2f5fc);
+  }
+  .industries-section > .wrap { width: calc(100% - 38px); }
+  .industries-section > .wrap::before {
+    top: 282px;
+    right: 8px;
+    width: calc(100% - 24px);
+    height: 205px;
+    border-width: 7px;
+    border-radius: 22px 62px 22px 22px;
+    background-position: center, left center, right 8px top 8px;
+    background-size: 100% 100%, 66% 100%, 31% 42%;
+  }
+  .industries-section > .wrap::after {
+    top: 394px;
+    right: 5px;
+    width: 44%;
+    height: 105px;
+    border-width: 6px;
+    border-radius: 13px 13px 32px 13px;
+  }
+  .industries-section .section-heading {
+    width: 100%;
+    min-height: 535px;
+    padding: 0 0 0;
+  }
+  .industries-section .section-heading .eyebrow { font-size: 10px; }
+  .industries-section .section-heading h2 {
+    max-width: 520px;
+    margin: 17px 0 14px;
+    font-size: clamp(36px, 10.1vw, 49px);
+    line-height: 1.09;
+    letter-spacing: -.05em;
+  }
+  .industries-section .section-heading h2::after { width: 47px; height: 3px; margin-top: 10px; }
+  .industries-section .section-heading > p { max-width: 460px; font-size: 14px; line-height: 1.7; }
+  .industries-section .section-foot { margin: -2px 0 25px; }
+  .industries-section .section-foot .text-link { width: 100%; min-height: 50px; }
+  .industries-section .industry-grid { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .industries-section .industry-card { min-height: 190px; padding: 21px 22px 24px 24px; }
+  .industries-section .industry-icon { width: 43px; height: 43px; margin-bottom: 16px; }
+  .industries-section .industry-card h3 { font-size: 21px; }
+  .industries-section .industry-card p { max-width: calc(100% - 16px); font-size: 13px; }
+  .industries-section .industry-card-arrow { right: 16px; bottom: 16px; width: 37px; height: 37px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .industries-section .industry-card,
+  .industries-section .industry-card::before,
+  .industries-section .industry-card-arrow,
+  .industries-section .section-foot .text-link {
+    transition: none !important;
+  }
+}
