@@ -1,0 +1,93 @@
+/* Responsive safety and scroll-reveal behavior across desktop, tablet and touch devices. */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+body { width: 100%; min-width: 320px; overflow-x: clip; }
+#root, main { width: 100%; min-width: 0; }
+img, svg, video, canvas { max-width: 100%; }
+.wrap { width: min(var(--wrap, 1160px), calc(100% - 48px)); }
+
+/* Motion-enhanced elements remain visible if JS or IntersectionObserver is unavailable. */
+.motion-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity .65s ease var(--motion-delay, 0ms), transform .65s cubic-bezier(.2,.7,.2,1) var(--motion-delay, 0ms);
+}
+.motion-in.motion-visible {
+  animation: cx-scroll-reveal .72s cubic-bezier(.2,.7,.2,1) both;
+  animation-delay: var(--motion-delay, 0ms);
+}
+@keyframes cx-scroll-reveal {
+  from { opacity: 0; transform: translate3d(0, 20px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* Touchscreens get a visible, non-hover-dependent response on tap/focus. */
+@media (hover: none) {
+  .solution-card:active, .industry-card:active, .service-card:active,
+  .standard-rows article:active, .brands-section .standards-logo-group:active {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px #14235620;
+  }
+  .button:active, .text-link:active { transform: scale(.98); }
+}
+:focus-visible { outline: 3px solid #e21f26; outline-offset: 3px; }
+
+@media (max-width: 960px) {
+  .wrap { width: min(var(--wrap, 1160px), calc(100% - 40px)); }
+  .section-padding { padding-top: clamp(64px, 9vw, 92px); padding-bottom: clamp(64px, 9vw, 92px); }
+  .intro-layout, .why-layout, .contact-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 30px; }
+  .intro-index { display: none; }
+  .intro-copy { grid-column: 1; }
+  .intro-image-wrap { grid-column: 2; }
+  .footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px; }
+  .solution-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .industry-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .page-hero { min-height: 330px; height: auto; }
+  .page-hero-content { padding-top: 76px; padding-bottom: 76px; }
+}
+
+@media (max-width: 700px) {
+  .wrap { width: calc(100% - 36px); }
+  .section-padding { padding-top: 62px; padding-bottom: 66px; }
+  .section-heading { display: block; margin-bottom: 28px; }
+  .section-heading h2 { font-size: clamp(28px, 8vw, 40px); }
+  .intro-layout, .why-layout, .contact-layout { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .intro-copy, .intro-image-wrap { grid-column: 1; }
+  .intro-copy h2 { font-size: clamp(34px, 9vw, 48px); }
+  .intro-image-wrap { min-height: 280px; }
+  .solution-grid, .industry-grid, .service-grid, .finder-cards { grid-template-columns: minmax(0, 1fr); }
+  .why-layout { gap: 38px; }
+  .why-lead { padding: 0; }
+  .standard-rows article { grid-template-columns: 36px minmax(0, 1fr); gap: 12px; }
+  .standard-rows article > :nth-child(2) { grid-column: 2; }
+  .standard-rows article > :nth-child(3) { grid-column: 2; }
+  .standard-rows .status-pending { grid-column: 2; justify-self: start; }
+  .brands-foot { grid-template-columns: minmax(0, 1fr); }
+  .footer-main { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .page-hero-content { padding-top: 66px; padding-bottom: 66px; }
+  .page-hero h1 { font-size: clamp(36px, 10vw, 52px); }
+  .contact-layout { align-items: stretch; }
+  .solution-finder { padding: 20px; }
+}
+
+@media (max-width: 420px) {
+  .wrap { width: calc(100% - 30px); }
+  .topline-inner { gap: 6px; }
+  .section-heading h2, .page-hero h1 { overflow-wrap: anywhere; }
+  .button { max-width: 100%; white-space: normal; }
+  .solution-finder { padding: 16px 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .motion-in, .motion-in.motion-visible {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  *, *::before, *::after { scroll-behavior: auto !important; }
+}
