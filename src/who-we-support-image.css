@@ -1,0 +1,70 @@
+/* Who We Support hero collage: four sectors, responsive and right aligned. */
+.industries-section > .wrap::before {
+  right: 0;
+  width: min(55%, 660px);
+  height: 350px;
+  overflow: hidden;
+  border: 8px solid rgba(255, 255, 255, .9);
+  border-radius: 28% 7% 23% 8% / 12% 18% 12% 20%;
+  background-color: #dce7fa;
+  background-image:
+    linear-gradient(180deg, transparent 62%, rgba(19, 34, 86, .24)),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=800&q=82"),
+    url("https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=82"),
+    url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=800&q=82"),
+    url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=82");
+  background-repeat: no-repeat;
+  background-position: center, left top, right top, left bottom, right bottom;
+  background-size: 100% 100%, 49% 49%, 49% 49%, 49% 49%, 49% 49%;
+  box-shadow: 0 24px 70px rgba(34, 91, 214, .18), 0 0 38px rgba(66, 133, 244, .16);
+  transform: rotate(0);
+}
+
+.industries-section > .wrap::after {
+  top: 206px;
+  right: 4px;
+  width: min(27%, 320px);
+  height: 150px;
+  border: 7px solid #fff;
+  border-radius: 16px 16px 48px 16px;
+  box-shadow: 0 16px 40px rgba(26, 39, 102, .2), 0 0 24px rgba(66, 133, 244, .12);
+  transform: rotate(-3deg);
+}
+
+@media (min-width: 1440px) {
+  .industries-section > .wrap::before { height: 380px; }
+  .industries-section > .wrap::after { top: 222px; height: 166px; }
+}
+
+@media (max-width: 900px) and (min-width: 621px) {
+  .industries-section > .wrap::before { width: 52%; height: 300px; }
+  .industries-section > .wrap::after { top: 170px; width: 29%; height: 140px; }
+  .industries-section .section-heading { width: 45%; min-height: 330px; }
+}
+
+@media (max-width: 620px) {
+  .industries-section > .wrap::before {
+    top: 320px;
+    right: 0;
+    width: 100%;
+    height: 220px;
+    border-width: 6px;
+    border-radius: 26% 7% 22% 8% / 12% 18% 12% 20%;
+    background-position: center, left top, right top, left bottom, right bottom;
+    background-size: 100% 100%, 49% 49%, 49% 49%, 49% 49%, 49% 49%;
+    box-shadow: 0 18px 48px rgba(34, 91, 214, .16), 0 0 28px rgba(66, 133, 244, .14);
+  }
+  .industries-section > .wrap::after {
+    top: 430px;
+    right: 4px;
+    width: 43%;
+    height: 102px;
+    border-width: 5px;
+  }
+  .industries-section .section-heading { min-height: 555px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .industries-section > .wrap::before,
+  .industries-section > .wrap::after { transform: none; }
+}
