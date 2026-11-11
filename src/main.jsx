@@ -7,6 +7,7 @@ import './styles.css'
 import './enhancements.css'
 import './who-we-support.css'
 import './who-we-support-image.css'
+import './partner-standards.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

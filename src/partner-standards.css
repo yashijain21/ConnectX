@@ -1,0 +1,329 @@
+/* Premium certification ecosystem treatment for the existing partner standards area. */
+.brands-section {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fff 0%, #f7f9ff 52%, #fff 100%);
+}
+
+.brands-section .brands-foot {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, .85fr);
+  grid-template-rows: auto auto 1fr;
+  align-items: start;
+  min-height: 340px;
+  margin: 34px 0 48px;
+  padding: 46px clamp(28px, 5vw, 72px);
+  overflow: hidden;
+  border: 1px solid #dfe7fb;
+  border-radius: 24px;
+  background:
+    radial-gradient(ellipse at 80% 47%, #d9e7ff 0, #eaf1ff80 20%, transparent 47%),
+    radial-gradient(ellipse at 80% 47%, transparent 29%, #2a3f9d25 29.25%, transparent 29.7%, transparent 40%, #e21f2622 40.2%, transparent 40.65%),
+    linear-gradient(120deg, #fff 2%, #f4f7ff 100%);
+  box-shadow: 0 22px 60px #1a276610, inset 0 1px #ffffff;
+}
+
+.brands-section .brands-foot > span {
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 13px;
+  border: 1px solid #dce8df;
+  border-radius: 999px;
+  background: #ffffffd9;
+  color: #35415f;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.brands-section .brands-foot > span .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #35a66b;
+  box-shadow: 0 0 0 4px #35a66b18;
+}
+
+.brands-section .brands-foot > a {
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: start;
+  display: inline-block;
+  margin-top: 21px;
+  padding: 0 0 13px;
+  border: 0;
+  background: linear-gradient(#e21f26, #e21f26) left bottom / 48px 3px no-repeat;
+  color: transparent;
+  font-size: 0;
+  text-decoration: none;
+}
+
+.brands-section .brands-foot > a::before,
+.brands-section .brands-foot > a::after {
+  display: inline;
+  font: 700 clamp(30px, 4vw, 48px)/1.08 'Inter', sans-serif;
+  letter-spacing: -.045em;
+}
+
+.brands-section .brands-foot > a::before {
+  content: 'Explore partner ';
+  color: #1a2766;
+}
+
+.brands-section .brands-foot > a::after {
+  content: 'categories';
+  color: #e21f26;
+}
+
+.brands-section .brands-foot > a svg { display: none; }
+
+.brands-section .brands-foot::before {
+  position: relative;
+  z-index: 2;
+  grid-column: 1;
+  grid-row: 3;
+  align-self: start;
+  max-width: 470px;
+  margin-top: 11px;
+  color: #56617d;
+  content: 'ConnectX works with trusted partners who meet industry standards and certification requirements.';
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.brands-section .brands-foot::after {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 12%;
+  display: grid;
+  width: clamp(118px, 17vw, 190px);
+  aspect-ratio: .88;
+  place-items: center;
+  border: 1px solid #ffffffb8;
+  border-radius: 48% 48% 47% 47% / 30% 30% 68% 68%;
+  background: linear-gradient(145deg, #4969d4 0%, #2a3f9d 49%, #1a2766 100%);
+  box-shadow: 0 28px 55px #1a27664a, inset 10px 8px 18px #ffffff25, inset -12px -15px 20px #101c5140;
+  color: #fff;
+  content: '✓';
+  font: 500 clamp(54px, 8vw, 84px)/1 'Inter', sans-serif;
+  transform: translateY(-50%);
+  clip-path: polygon(50% 0, 95% 17%, 91% 61%, 78% 81%, 50% 100%, 22% 81%, 9% 61%, 5% 17%);
+  filter: drop-shadow(0 0 18px #5e85ff66);
+}
+
+.brands-section .standards-strip {
+  position: relative;
+  margin-top: 0;
+  padding: 15px 0 0;
+  border-top: 0;
+}
+
+.brands-section .standards-strip > .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 28px;
+  color: #1a2766;
+  font-size: clamp(13px, 1.5vw, 17px);
+  font-weight: 800;
+  letter-spacing: .2em;
+}
+
+.brands-section .standards-strip > .eyebrow::before,
+.brands-section .standards-strip > .eyebrow::after {
+  width: 42px;
+  height: 1px;
+  background: linear-gradient(90deg, #e21f26, #2a3f9d);
+  content: '';
+}
+
+.brands-section .standards-logo-groups {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px !important;
+  margin-top: 0;
+  position: relative;
+}
+
+.brands-section .standards-logo-group {
+  position: relative;
+  display: flex;
+  min-height: 150px;
+  align-items: center;
+  padding: 24px 190px 24px 83px;
+  overflow: hidden;
+  border: 1px solid #e1e8f7;
+  border-left: 4px solid #1a2766;
+  border-radius: 16px;
+  background: linear-gradient(125deg, #fff 5%, #f4f7ff 100%);
+  box-shadow: 0 12px 30px #1a27660a, inset 0 1px #fff;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.brands-section .standards-logo-group:nth-child(3n + 2) { border-left-color: #2a3f9d; }
+.brands-section .standards-logo-group:nth-child(3n) { border-left-color: #e21f26; }
+.brands-section .standards-logo-group:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 35px #1a276616;
+}
+
+.brands-section .standards-logo-group::before {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  display: grid;
+  width: 43px;
+  height: 43px;
+  place-items: center;
+  border: 1px solid #dce5fc;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff, #e8efff);
+  color: #2a3f9d;
+  content: '✓';
+  font-size: 19px;
+  font-weight: 700;
+  transform: translateY(-50%);
+}
+
+.brands-section .standards-logo-group:nth-child(3n + 2)::before { color: #2a3f9d; }
+.brands-section .standards-logo-group:nth-child(3n)::before { color: #e21f26; }
+
+.brands-section .standards-logo-group > span {
+  display: block;
+  color: #1a2766;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -.02em;
+}
+
+.brands-section .standards-logo-group > span::after {
+  display: block;
+  margin-top: 8px;
+  color: #68728b;
+  content: 'Reference named in the company brief';
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.55;
+}
+
+.brands-section .standards-logo-group:nth-child(1) > span::after { content: 'American National Standards Institute'; }
+.brands-section .standards-logo-group:nth-child(2) > span::after { content: 'International Standards Organisation'; }
+.brands-section .standards-logo-group:nth-child(3) > span::after { content: 'Advancing Technology for Humanity'; }
+.brands-section .standards-logo-group:nth-child(4) > span::after { content: 'European Standards'; }
+.brands-section .standards-logo-group:nth-child(5) > span::after { content: 'Restriction of Hazardous Substances'; }
+.brands-section .standards-logo-group:nth-child(6) > span::after { content: 'Safety and Performance Standards'; }
+
+.brands-section .standards-logo-group > div {
+  position: absolute;
+  top: 50%;
+  right: 19px;
+  display: flex;
+  width: 150px;
+  min-height: 66px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 0;
+  padding: 7px;
+  border: 1px solid #e8ecf5;
+  border-radius: 10px;
+  background: #ffffffd9;
+  transform: translateY(-50%);
+}
+
+.brands-section .standards-logo-group img {
+  display: block;
+  max-width: 64px;
+  max-height: 43px;
+  object-fit: contain;
+}
+
+.brands-section .standards-strip > p {
+  position: relative;
+  display: flex;
+  min-height: 68px;
+  align-items: center;
+  gap: 15px;
+  margin: 26px 0 0;
+  padding: 17px 24px 17px 66px;
+  border: 1px solid #dce7ff;
+  border-radius: 14px;
+  background: linear-gradient(105deg, #eef3ff, #f8faff);
+  color: #1a2766;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.brands-section .standards-strip > p::before {
+  position: absolute;
+  left: 22px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: #1a2766;
+  color: #fff;
+  content: '✓';
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media (max-width: 820px) {
+  .brands-section .brands-foot { min-height: 310px; padding: 36px 32px; }
+  .brands-section .brands-foot::after { right: 7%; width: 145px; }
+  .brands-section .standards-logo-groups { gap: 13px !important; }
+  .brands-section .standards-logo-group { min-height: 145px; padding: 22px 145px 22px 72px; }
+  .brands-section .standards-logo-group > div { right: 12px; width: 120px; gap: 6px; }
+  .brands-section .standards-logo-group img { max-width: 49px; }
+  .brands-section .standards-logo-group::before { left: 16px; width: 40px; height: 40px; }
+}
+
+@media (max-width: 620px) {
+  .brands-section .brands-foot {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    min-height: 510px;
+    margin: 26px 0 38px;
+    padding: 27px 22px;
+    background:
+      radial-gradient(ellipse at 50% 88%, #d9e7ff 0, #eaf1ff80 20%, transparent 48%),
+      radial-gradient(ellipse at 50% 88%, transparent 27%, #2a3f9d25 27.25%, transparent 27.7%, transparent 39%, #e21f2622 39.2%, transparent 39.65%),
+      linear-gradient(135deg, #fff, #f4f7ff);
+  }
+  .brands-section .brands-foot > span { grid-column: 1; grid-row: 1; font-size: 9px; }
+  .brands-section .brands-foot > a { grid-column: 1; grid-row: 2; margin-top: 18px; }
+  .brands-section .brands-foot > a::before,
+  .brands-section .brands-foot > a::after { font-size: clamp(29px, 8vw, 39px); }
+  .brands-section .brands-foot::before { grid-column: 1; grid-row: 3; max-width: 100%; margin-top: 9px; font-size: 13px; }
+  .brands-section .brands-foot::after { top: auto; right: 50%; bottom: 20px; width: 118px; transform: translateX(50%); }
+  .brands-section .standards-strip > .eyebrow { gap: 9px; font-size: 11px; letter-spacing: .13em; }
+  .brands-section .standards-strip > .eyebrow::before,
+  .brands-section .standards-strip > .eyebrow::after { width: 19px; }
+  .brands-section .standards-logo-groups { grid-template-columns: 1fr; gap: 12px !important; }
+  .brands-section .standards-logo-group { min-height: 136px; padding: 20px 135px 20px 72px; }
+  .brands-section .standards-logo-group > span { font-size: 16px; }
+  .brands-section .standards-logo-group > div { right: 10px; width: 112px; min-height: 60px; padding: 5px; }
+  .brands-section .standards-logo-group img { max-width: 46px; max-height: 39px; }
+  .brands-section .standards-logo-group::before { left: 14px; width: 39px; height: 39px; }
+  .brands-section .standards-strip > p { align-items: flex-start; padding: 15px 15px 15px 54px; font-size: 12px; }
+  .brands-section .standards-strip > p::before { left: 15px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brands-section .standards-logo-group { transition: none; }
+  .brands-section .standards-logo-group:hover { transform: none; }
+}
