@@ -23,6 +23,7 @@ Responsive React website built with Vite and Tailwind CSS. The site copy, soluti
 
 ## Other integrations
 
+- `VITE_HERO_VIDEO_URL`: optional URL to override the bundled Pexels hero MP4. The bundled clip plays on desktop; the credited data-centre image is used on small screens and when reduced motion is enabled.
 - `VITE_WHATSAPP_NUMBER`: verified international phone number, digits only, for the floating WhatsApp link. Until set, the floating action opens the contact page.
 - `VITE_GA4_ID`: verified Google Analytics measurement ID (`G-...`). Analytics is not loaded until configured.
 
