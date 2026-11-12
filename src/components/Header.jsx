@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import Icon from './Icon'
-import { company } from '../data/content'
 import { navLinks, solutions } from '../data/content'
 import QuoteForm from './QuoteForm'
 
@@ -33,6 +32,6 @@ export default function Header() {
     }, 4000)
     return () => window.clearTimeout(timer)
   }, [location.pathname, quoteOpen])
-  return <><div className="topline"><div className="wrap topline-inner"><span>Connect to the world of eXcellence</span><a href={`mailto:${company.email}`}>Partner with ConnectX <Icon name="arrow-up-right" size={13} /></a></div></div>
+  return <><div className="topline"><div className="wrap topline-inner"><span>Connect to the world of eXcellence</span></div></div>
   <header className="site-header"><div className="wrap header-inner"><Brand /><nav className={`main-nav ${open ? 'nav-open' : ''}`} aria-label="Main navigation">{navLinks.map(item => item.label === 'Solutions' ? <div key={item.href} className="nav-dropdown"><NavLink onClick={() => setOpen(false)} to={item.href}>{item.label}<Icon name="down" size={13}/></NavLink><div className="dropdown-menu"><Link onClick={() => setOpen(false)} to="/solutions">All solutions <Icon name="arrow-up-right" size={14}/></Link>{solutions.map(solution=><Link onClick={() => setOpen(false)} key={solution.id} to={`/solutions/${solution.id}`}>{solution.short}<Icon name="arrow-up-right" size={14}/></Link>)}</div></div> : <NavLink onClick={() => setOpen(false)} key={item.href} to={item.href}>{item.label}</NavLink>)}<NavLink onClick={() => setOpen(false)} to="/contact" className="header-connect">Let's connect <Icon name="arrow-up-right" size={15}/></NavLink></nav><div className="header-actions"><Link ref={quoteTrigger} to="/contact#quote" className="button button-primary button-small">Request a quote <Icon name="arrow" size={15}/></Link><button className="menu-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}><Icon name={open ? 'close' : 'menu'} size={23}/></button></div></div></header>{quoteOpen&&<div className="quote-modal-backdrop" onMouseDown={event=>{if(event.target===event.currentTarget)setQuoteOpen(false)}}><section className="quote-modal" role="dialog" aria-modal="true" aria-labelledby="quote-modal-title"><div className="quote-modal-heading"><div><span className="eyebrow">PROJECT ENQUIRY</span><h2 id="quote-modal-title">Request a quote</h2><p>Tell us a little about your project and our team will get back to you.</p></div><button ref={quoteClose} type="button" className="quote-modal-close" onClick={()=>setQuoteOpen(false)} aria-label="Close quote form"><Icon name="close" size={21}/></button></div><QuoteForm formId="quote-modal-form"/></section></div>}</>
 }
