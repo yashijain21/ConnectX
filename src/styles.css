@@ -123,3 +123,4 @@ h1,h2,h3,h4,p,a,button,label,small,strong,span{font-family:inherit}
 .hero-video{display:block!important}
 .hero-image-credit{display:flex;flex-direction:column;gap:3px;max-width:min(310px,45vw);text-align:right}.hero-image-credit a{color:#fff;text-decoration:underline;text-underline-offset:2px}.hero-image-credit span{font-size:7px;line-height:1.4;color:#e3e8fb}
 @media(max-width:620px){.hero-image-credit{max-width:175px;font-size:7px}.hero-image-credit span{font-size:6px}}
+.industry-showcase-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.industry-showcase-image:after,.finder-feature-image:after{content:'';position:absolute;z-index:1;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(26,39,102,.34),transparent 68%),linear-gradient(0deg,rgba(16,27,73,.52),transparent 72%)}.industry-showcase-image>span,.finder-image-index,.finder-image-name{z-index:2}@media(max-width:620px){.industry-showcase-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
